@@ -3,9 +3,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// The basicauth command demonstrates using the unleashed.BasicAuthTransport,
-// including handling two-factor authentication.  This won't currently work for
-// accounts that use SMS to receive one-time passwords.
 package main
 
 import (
@@ -14,7 +11,7 @@ import (
 	"os"
 	"strings"
 
-	"go-unleashed/unleashed"
+	"github.com/zentby/go-unleashed/unleashed"
 )
 
 func main() {

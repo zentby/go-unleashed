@@ -135,7 +135,6 @@ func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Requ
 	}
 
 	req.Header.Set("api-auth-signature", sign)
-	fmt.Println(sign)
 
 	return req, nil
 }
