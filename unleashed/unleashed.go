@@ -206,7 +206,7 @@ type ErrorResponse struct {
 
 	Code             string `json:"Code"`
 	Description      string `json:"Description"` // error message
-	DebugInformation string `json:"DebugInformation'`
+	DebugInformation string `json:"DebugInformation"`
 }
 
 func (r *ErrorResponse) Error() string {
