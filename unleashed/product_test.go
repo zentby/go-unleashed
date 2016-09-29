@@ -26,7 +26,7 @@ func TestIssuesService_List(t *testing.T) {
 	}
 
 	want := &ProductList{Pagination: Pagination{NumberOfItems: 9, PageSize: 200, PageNumber: 1, NumberOfPages: 1},
-		Items: []Product{{ProductCode: "1"}}}
+		Items: []Product{{ProductCode: String("1")}}}
 	if !reflect.DeepEqual(issues, want) {
 		t.Errorf("Issues.List returned %+v, want %+v", issues, want)
 	}
