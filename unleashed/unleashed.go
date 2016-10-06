@@ -39,8 +39,11 @@ type Client struct {
 	common service // Reuse a single struct instead of allocating one for each service on the heap.
 
 	// Services used for talking to different parts of the Unleashed API.
-	Products  *ProductService
-	Customers *CustomerService
+	Products       *ProductService
+	Customers      *CustomerService
+	PurchaseOrders *PurchaseOrderService
+	Taxes          *TaxService
+	Warehouses     *WarehouseService
 }
 
 type service struct {
@@ -81,6 +84,9 @@ func NewClient(apiKey string, apiSecret string) *Client {
 	c.common.client = c
 	c.Products = (*ProductService)(&c.common)
 	c.Customers = (*CustomerService)(&c.common)
+	c.PurchaseOrders = (*PurchaseOrderService)(&c.common)
+	c.Taxes = (*TaxService)(&c.common)
+	c.Warehouses = (*WarehouseService)(&c.common)
 	return c
 }
 
