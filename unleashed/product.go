@@ -84,23 +84,11 @@ func (i Product) String() string {
 	return Stringify(i)
 }
 
-func (s *ProductService) List(opt *PageOptions) (*ProductList, *Response, error) {
+func (s *ProductService) List(opt *PageOptions, query *map[string]string) (*ProductList, *Response, error) {
 	u := "products"
-	if opt != nil {
-		t, err := addOptions(u, *opt)
-		if err != nil {
-			return nil, nil, err
-		}
-		u = t
-	}
-
-	req, err := s.client.NewRequest("GET", u, nil)
-	if err != nil {
-		return nil, nil, err
-	}
 
 	products := &ProductList{}
-	resp, err := s.client.Do(req, products)
+	resp, err := s.client.GetRequestData(u, opt, query, products)
 	if err != nil {
 		return nil, resp, err
 	}
@@ -110,18 +98,14 @@ func (s *ProductService) List(opt *PageOptions) (*ProductList, *Response, error)
 
 func (s *ProductService) GetProductBy(id string) (*Product, *Response, error) {
 	u := "products/" + id
-	req, err := s.client.NewRequest("GET", u, nil)
-	if err != nil {
-		return nil, nil, err
-	}
 
-	products := &Product{}
-	resp, err := s.client.Do(req, products)
+	product := &Product{}
+	resp, err := s.client.GetRequestData(u, nil, nil, product)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return products, resp, err
+	return product, resp, err
 }
 
 func (s *ProductService) CreateProduct(product *Product) (*Product, *Response, error) {

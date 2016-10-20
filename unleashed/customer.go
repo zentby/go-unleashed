@@ -83,23 +83,10 @@ func (i Customer) String() string {
 	return Stringify(i)
 }
 
-func (s *CustomerService) List(opt *PageOptions) (*CustomerList, *Response, error) {
+func (s *CustomerService) List(opt *PageOptions, query *map[string]string) (*CustomerList, *Response, error) {
 	u := "customers"
-	if opt != nil {
-		t, err := addOptions(u, *opt)
-		if err != nil {
-			return nil, nil, err
-		}
-		u = t
-	}
-
-	req, err := s.client.NewRequest("GET", u, nil)
-	if err != nil {
-		return nil, nil, err
-	}
-
 	customers := &CustomerList{}
-	resp, err := s.client.Do(req, customers)
+	resp, err := s.client.GetRequestData(u, opt, query, customers)
 	if err != nil {
 		return nil, resp, err
 	}

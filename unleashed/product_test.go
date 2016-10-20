@@ -20,7 +20,7 @@ func TestIssuesService_List(t *testing.T) {
 		fmt.Fprint(w, `{"Pagination": {"NumberOfItems": 9, "PageSize": 200, "PageNumber": 1, "NumberOfPages": 1 }, "Items": [{"ProductCode": "1"} ] }`)
 	})
 
-	issues, _, err := client.Products.List(nil)
+	issues, _, err := client.Products.List(nil, nil)
 	if err != nil {
 		t.Errorf("Issues.List returned error: %v", err)
 	}

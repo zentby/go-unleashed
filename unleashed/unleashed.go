@@ -18,7 +18,8 @@ const (
 	defaultBaseURL = "https://api.unleashedsoftware.com/"
 	userAgent      = "go-unleashed"
 
-	jsontype = "application/json"
+	jsontype   = "application/json"
+	dateFormat = "2006-01-02 15:04:05"
 )
 
 // A Client manages communication with the Unleashed API.
@@ -66,7 +67,23 @@ func addOptions(s string, page PageOptions) (string, error) {
 	if !strings.HasSuffix(s, "/") {
 		s = s + "/"
 	}
+
 	return fmt.Sprintf("%v%d?pagesize=%d", s, page.PageNumber, page.PageSize), nil
+}
+
+func addQueries(s string, query map[string]string) string {
+	if !strings.Contains(s, "?") {
+		s = s + "?"
+	} else {
+		s = s + "&"
+	}
+	qs := ""
+	for key, value := range query {
+		qs = fmt.Sprintf("%v=%v&", key, value)
+	}
+	qs = strings.TrimRight(s+qs, "?&")
+
+	return s + qs
 }
 
 // NewClient returns a new Unleashed API client.
@@ -145,6 +162,32 @@ func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Requ
 	req.Header.Set("api-auth-signature", sign)
 
 	return req, nil
+}
+
+func (c *Client) GetRequestData(u string, opt *PageOptions, query *map[string]string, v interface{}) (*Response, error) {
+	if opt != nil {
+		t, err := addOptions(u, *opt)
+		if err != nil {
+			return nil, err
+		}
+		u = t
+	}
+
+	if query != nil {
+		u = addQueries(u, *query)
+	}
+
+	req, err := c.NewRequest("GET", u, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.Do(req, v)
+	if err != nil {
+		return resp, err
+	}
+
+	return resp, err
 }
 
 type Pagination struct {
