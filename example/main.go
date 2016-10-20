@@ -25,7 +25,7 @@ func main() {
 	password = strings.TrimRight(password, "\n\r ")
 
 	client := unleashed.NewClient(username, password)
-	products, resp, err := client.Customers.List(nil)
+	products, resp, err := client.Customers.List(nil, nil)
 
 	if err != nil {
 		panic(err)
