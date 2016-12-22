@@ -12,3 +12,7 @@ type Tax struct {
 	GUID               *string  `json:"Guid,omitempty"`
 	LastModifiedOn     *string  `json:"LastModifiedOn,omitempty"`
 }
+
+type TaxList struct {
+	Items []*Tax `json:"Items"`
+}

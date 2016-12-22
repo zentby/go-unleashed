@@ -7,8 +7,8 @@ import (
 type CustomerService service
 
 type CustomerList struct {
-	Pagination Pagination
-	Items      []Customer
+	Pagination *Pagination `json:"Pagination"`
+	Items      []*Customer `json:"Items"`
 }
 
 type Address struct {
@@ -27,12 +27,6 @@ type Currency struct {
 	Description    *string `json:"Description,omitempty"`
 	GUID           *string `json:"Guid,omitempty"`
 	LastModifiedOn *string `json:"LastModifiedOn,omitempty"`
-}
-
-type SalesPerson struct {
-	FullName *string `json:"FullName,omitempty"`
-	Email    *string `json:"Email,omitempty"`
-	Obsolete *bool   `json:"Obsolete,omitempty"`
 }
 
 type SellPriceTierReference struct {

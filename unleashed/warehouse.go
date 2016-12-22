@@ -22,3 +22,8 @@ type Warehouse struct {
 	GUID           *string `json:"Guid,omitempty"`
 	LastModifiedOn *string `json:"LastModifiedOn,omitempty"`
 }
+
+type WarehouseList struct {
+	Pagination *Pagination  `json:"Pagination"`
+	Items      []*Warehouse `json:"Items"`
+}

@@ -7,8 +7,8 @@ import (
 type ProductService service
 
 type ProductList struct {
-	Pagination Pagination
-	Items      []Product
+	Pagination *Pagination `json:"Pagination"`
+	Items      []*Product  `json:"Items"`
 }
 
 type SellPriceTier struct {

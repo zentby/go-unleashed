@@ -9,7 +9,7 @@ import (
 	//"time"
 )
 
-func TestIssuesService_List(t *testing.T) {
+func TestProductService_List(t *testing.T) {
 	setup()
 	defer teardown()
 

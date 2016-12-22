@@ -73,8 +73,8 @@ type PurchaseOrder struct {
 }
 
 type PurchaseOrderList struct {
-	Pagination Pagination
-	Items      []PurchaseOrder
+	Pagination *Pagination      `json:"Pagination"`
+	Items      []*PurchaseOrder `json:"Items"`
 }
 
 func (i PurchaseOrder) String() string {
