@@ -124,17 +124,16 @@ func (s *PurchaseOrderService) CreatePurchaseOrder(purchaseorder *PurchaseOrder)
 	return c, resp, err
 }
 
-func (s *PurchaseOrderService) UpdatePurchaseOrder(purchaseorder *PurchaseOrder) (*PurchaseOrder, *Response, error) {
-	u := fmt.Sprintf("purchaseorders/%v", *purchaseorder.GUID)
-	req, err := s.client.NewRequest("POST", u, purchaseorder)
+func (s *PurchaseOrderService) BatchCreatePurchaseOrders(purchaseorders *PurchaseOrderList) (*Response, error) {
+	u := "PurchaseOrdersBatch"
+	req, err := s.client.NewRequest("POST", u, purchaseorders)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
-	c := new(PurchaseOrder)
-	resp, err := s.client.Do(req, c)
+	resp, err := s.client.Do(req, nil)
 	if err != nil {
-		return nil, resp, err
+		return resp, err
 	}
 
-	return c, resp, err
+	return resp, err
 }

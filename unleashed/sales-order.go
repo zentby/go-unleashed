@@ -1,5 +1,11 @@
 package unleashed
 
+import (
+	"fmt"
+)
+
+type SalesOrderService service
+
 type SalesOrder struct {
 	SalesOrderLines           []*SalesOrderLine `json:"SalesOrderLines"`
 	OrderNumber               *string           `json:"OrderNumber"`
@@ -96,4 +102,81 @@ type CustomerKey struct {
 type SalesOrderList struct {
 	Pagination *Pagination   `json:"Pagination"`
 	Items      []*SalesOrder `json:"Items"`
+}
+
+func (i SalesOrder) String() string {
+	return Stringify(i)
+}
+
+func (s *SalesOrderService) List(opt *PageOptions, query *map[string]string) (*SalesOrderList, *Response, error) {
+	u := "salesorders"
+
+	salesOrders := &SalesOrderList{}
+	resp, err := s.client.GetRequestData(u, opt, query, salesOrders)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return salesOrders, resp, err
+}
+
+func (s *SalesOrderService) GetSalesOrderBy(id string) (*SalesOrder, *Response, error) {
+	u := "salesorders/" + id
+	req, err := s.client.NewRequest("GET", u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	salesorders := &SalesOrder{}
+	resp, err := s.client.Do(req, salesorders)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return salesorders, resp, err
+}
+
+func (s *SalesOrderService) CreateSalesOrder(salesorder *SalesOrder) (*SalesOrder, *Response, error) {
+	u := fmt.Sprintf("salesorders/%v", *salesorder.GUID)
+	req, err := s.client.NewRequest("POST", u, salesorder)
+	if err != nil {
+		return nil, nil, err
+	}
+	c := new(SalesOrder)
+	resp, err := s.client.Do(req, c)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return c, resp, err
+}
+
+func (s *SalesOrderService) UpdateSalesOrder(salesorder *SalesOrder) (*SalesOrder, *Response, error) {
+	u := fmt.Sprintf("salesorders/%v", *salesorder.GUID)
+	req, err := s.client.NewRequest("PUT", u, salesorder)
+	if err != nil {
+		return nil, nil, err
+	}
+	c := new(SalesOrder)
+	resp, err := s.client.Do(req, c)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return c, resp, err
+}
+
+func (s *SalesOrderService) CompleteSalesOrder(guid string) (*SalesOrder, *Response, error) {
+	u := fmt.Sprintf("salesorders/%v/complete", guid)
+	req, err := s.client.NewRequest("POST", u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+	c := new(SalesOrder)
+	resp, err := s.client.Do(req, c)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return c, resp, err
 }

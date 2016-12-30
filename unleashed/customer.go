@@ -118,18 +118,3 @@ func (s *CustomerService) CreateCustomer(customer *Customer) (*Customer, *Respon
 
 	return c, resp, err
 }
-
-func (s *CustomerService) UpdateCustomer(customer *Customer) (*Customer, *Response, error) {
-	u := fmt.Sprintf("customers/%v", *customer.GUID)
-	req, err := s.client.NewRequest("PUT", u, customer)
-	if err != nil {
-		return nil, nil, err
-	}
-	c := new(Customer)
-	resp, err := s.client.Do(req, c)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return c, resp, err
-}

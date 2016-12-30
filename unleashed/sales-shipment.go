@@ -1,5 +1,11 @@
 package unleashed
 
+import (
+	"fmt"
+)
+
+type SalesShipmentService service
+
 type SalesShipment struct {
 	OrderNumber        *string              `json:"OrderNumber"`
 	ShipmentNumber     *string              `json:"ShipmentNumber"`
@@ -35,4 +41,77 @@ type SalesShipmentLine struct {
 type SalesShipmentList struct {
 	Pagination *Pagination      `json:"Pagination"`
 	Items      []*SalesShipment `json:"Items"`
+}
+
+func (i SalesShipment) String() string {
+	return Stringify(i)
+}
+
+func (s *SalesShipmentService) List(opt *PageOptions, query *map[string]string) (*SalesShipmentList, *Response, error) {
+	u := "salesshipments"
+
+	salesshipments := &SalesShipmentList{}
+	resp, err := s.client.GetRequestData(u, opt, query, salesshipments)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return salesshipments, resp, err
+}
+
+func (s *SalesShipmentService) GetSalesShipmentBy(id string) (*SalesShipment, *Response, error) {
+	u := "salesshipments/" + id
+
+	salesShipment := &SalesShipment{}
+	resp, err := s.client.GetRequestData(u, nil, nil, salesShipment)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return salesShipment, resp, err
+}
+
+func (s *SalesShipmentService) CreateSalesShipment(salesShipment *SalesShipment) (*SalesShipment, *Response, error) {
+	u := fmt.Sprintf("salesshipments/%v", *salesShipment.GUID)
+	req, err := s.client.NewRequest("POST", u, salesShipment)
+	if err != nil {
+		return nil, nil, err
+	}
+	c := new(SalesShipment)
+	resp, err := s.client.Do(req, c)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return c, resp, err
+}
+
+func (s *SalesShipmentService) UpdateSalesShipment(salesShipment *SalesShipment) (*SalesShipment, *Response, error) {
+	u := fmt.Sprintf("salesshipments/%v", *salesShipment.GUID)
+	req, err := s.client.NewRequest("PUT", u, salesShipment)
+	if err != nil {
+		return nil, nil, err
+	}
+	c := new(SalesShipment)
+	resp, err := s.client.Do(req, c)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return c, resp, err
+}
+
+func (s *SalesShipmentService) DeleteSalesShipment(guid string) (*SalesShipment, *Response, error) {
+	u := fmt.Sprintf("salesshipments/%v", guid)
+	req, err := s.client.NewRequest("DELETE", u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+	c := new(SalesShipment)
+	resp, err := s.client.Do(req, c)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return c, resp, err
 }
