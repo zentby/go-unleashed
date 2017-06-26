@@ -1,6 +1,6 @@
 # go-unleashed #
 
-go-unleashed is a Go client library for accessing the [Unleashed API].
+go-unleashed is a Go client library for accessing the [Unleashed API](https://apidocs.unleashedsoftware.com/).
 
 **Build Status:** [![Build Status](https://travis-ci.org/zentby/go-unleashed.svg?branch=master)](https://travis-ci.org/zentby/go-unleashed)  
 
